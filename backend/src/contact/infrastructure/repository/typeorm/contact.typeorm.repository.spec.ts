@@ -1,57 +1,57 @@
 import { Test } from '@nestjs/testing'
-import { CharacterRepositoryTypeorm } from './character.typeorm.repository'
-import { CreateCharacterDto } from 'src/character/domain/dto/create-character.dto'
+import { ContactRepositoryTypeorm } from './contact.typeorm.repository'
+import { CreateContactDto } from 'src/contact/domain/dto/create-contact.dto'
 import {
   ConflictException,
   InternalServerErrorException,
   BadRequestException,
 } from '@nestjs/common'
-import { CharacterDto } from '../../../domain/dto/character.dto'
+import { ContactDto } from '../../../domain/dto/contact.dto'
 
-describe('CharacterRepository', () => {
-  let characterRepository
-  let mockCreateOrUpdateCharacterDtoSuccess: CreateCharacterDto = {
-    name: 'name',
-    image: 'image',
-    hierarchy: 'hierarchy',
-    organization: 'organization',
+describe('ContactRepository', () => {
+  let contactRepository
+  let mockCreateOrUpdateContactDtoSuccess: CreateContactDto = {
+    firstName: 'pepe',
+    lastName: 'pepón',
+    email: 'pepepepon@123.com',
+    phoneNumber: '696969696',
   }
-  const mockCharacterId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
+  const mockContactId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
   const mockUserId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [CharacterRepositoryTypeorm],
+      providers: [ContactRepositoryTypeorm],
     }).compile()
 
-    characterRepository = await module.get<CharacterRepositoryTypeorm>(
-      CharacterRepositoryTypeorm,
+    contactRepository = await module.get<ContactRepositoryTypeorm>(
+      ContactRepositoryTypeorm,
     )
   })
 
-  describe('method: createCharacter', () => {
+  describe('method: createContact', () => {
     let save
 
     beforeEach(() => {
       save = jest.fn()
-      characterRepository.create = jest.fn().mockReturnValue({ save })
+      contactRepository.create = jest.fn().mockReturnValue({ save })
     })
 
     it('Happy path', () => {
       save.mockResolvedValue(undefined)
       expect(
-        characterRepository.createCharacter(
-          mockCreateOrUpdateCharacterDtoSuccess,
+        contactRepository.createContact(
+          mockCreateOrUpdateContactDtoSuccess,
         ),
       ).resolves.not.toThrow()
     })
 
-    it('Character name already exists', async () => {
+    it('Contact name already exists', async () => {
       save.mockRejectedValue({ code: '23505' })
       let response
       try {
-        response = await characterRepository.createCharacter(
-          mockCreateOrUpdateCharacterDtoSuccess,
+        response = await contactRepository.createContact(
+          mockCreateOrUpdateContactDtoSuccess,
           mockUserId
         )
       } catch (err) {
@@ -60,12 +60,12 @@ describe('CharacterRepository', () => {
       expect(response instanceof ConflictException).toBe(true)
     })
 
-    it('Character insert unknown issue', async () => {
+    it('Contact insert unknown issue', async () => {
       save.mockRejectedValue({ code: 'UNKNOWN_ERROR' }) // unhandled error code
       let response
       try {
-        response = await characterRepository.createCharacter(
-          mockCreateOrUpdateCharacterDtoSuccess,
+        response = await contactRepository.createContact(
+          mockCreateOrUpdateContactDtoSuccess,
           mockUserId
         )
       } catch (err) {
@@ -75,32 +75,32 @@ describe('CharacterRepository', () => {
     })
   })
 
-  describe('method: updateCharacter', () => {
+  describe('method: updateContact', () => {
     let save
 
     beforeEach(() => {
       save = jest.fn()
-      characterRepository.getCharacterById = jest.fn().mockReturnValue({ save })
+      contactRepository.getContactById = jest.fn().mockReturnValue({ save })
     })
 
     it('Happy path', () => {
       save.mockResolvedValue(undefined)
       expect(
-        characterRepository.updateCharacter(
-          mockCharacterId,
-          mockCreateOrUpdateCharacterDtoSuccess,
+        contactRepository.updateContact(
+          mockContactId,
+          mockCreateOrUpdateContactDtoSuccess,
           mockUserId,
         ),
       ).resolves.not.toThrow()
     })
 
-    it('Character insert unknown issue', async () => {
+    it('Contact insert unknown issue', async () => {
       save.mockRejectedValue({ code: 'UNKNOWN_ERROR' }) // unhandled error code
       let response
       try {
-        response = await characterRepository.updateCharacter(
-          mockCharacterId,
-          mockCreateOrUpdateCharacterDtoSuccess,
+        response = await contactRepository.updateContact(
+          mockContactId,
+          mockCreateOrUpdateContactDtoSuccess,
           mockUserId,
         )
       } catch (err) {
@@ -108,16 +108,16 @@ describe('CharacterRepository', () => {
       }
       expect(response instanceof InternalServerErrorException).toBe(true)
     })
-    it('Try to change a non existing character', async () => {
-      characterRepository.getCharacterById = jest
+    it('Try to change a non existing contact', async () => {
+      contactRepository.getContactById = jest
         .fn()
         .mockResolvedValue(undefined)
 
       let response
       try {
-        response = await characterRepository.updateCharacter(
-          mockCharacterId,
-          mockCreateOrUpdateCharacterDtoSuccess,
+        response = await contactRepository.updateContact(
+          mockContactId,
+          mockCreateOrUpdateContactDtoSuccess,
           mockUserId,
         )
       } catch (err) {
@@ -127,14 +127,14 @@ describe('CharacterRepository', () => {
     })
   })
 
-  describe('method: getCharacters', () => {
-    const mockCharactersArray: CharacterDto[] = [
+  describe('method: getContacts', () => {
+    const mockContactsArray: ContactDto[] = [
       {
         id: 'string',
-        name: 'string',
-        image: 'string',
-        organization: 'string',
-        hierarchy: 'string',
+        firstName: 'pepe',
+        lastName: 'pepón',
+        email: 'pepepepon@123.com',
+        phoneNumber: '696969696',
         user: {},
         userId: 'string',
         createdAt: 'string',
@@ -142,10 +142,10 @@ describe('CharacterRepository', () => {
       },
       {
         id: 'string',
-        name: 'string',
-        image: 'string',
-        organization: 'string',
-        hierarchy: 'string',
+        firstName: 'pepe',
+        lastName: 'pepón',
+        email: 'pepepepon@123.com',
+        phoneNumber: '696969696',
         user: {},
         userId: 'string',
         createdAt: 'string',
@@ -153,18 +153,18 @@ describe('CharacterRepository', () => {
       },
     ]
 
-    const mockCharactersArrayLength = mockCharactersArray.length
+    const mockContactsArrayLength = mockContactsArray.length
     it('Happy path', async () => {
-      characterRepository.find = jest.fn().mockReturnValue(mockCharactersArray)
-      const response = await characterRepository.getCharacters()
+      contactRepository.find = jest.fn().mockReturnValue(mockContactsArray)
+      const response = await contactRepository.getContacts()
 
-      expect(response.length).toBe(mockCharactersArrayLength)
+      expect(response.length).toBe(mockContactsArrayLength)
     })
     it('DB error', async () => {
       let response
-      characterRepository.find = jest.fn().mockRejectedValue(undefined)
+      contactRepository.find = jest.fn().mockRejectedValue(undefined)
       try {
-        response = await characterRepository.getCharacters()
+        response = await contactRepository.getContacts()
       } catch (err) {
         response = err
       }
@@ -173,11 +173,11 @@ describe('CharacterRepository', () => {
     })
   })
 
-  describe('method: deleteCharacter', () => {
+  describe('method: deleteContact', () => {
     let remove
     beforeEach(() => {
       remove = jest.fn()
-      characterRepository.getCharacterById = jest
+      contactRepository.getContactById = jest
         .fn()
         .mockReturnValue({ remove })
     })
@@ -185,16 +185,16 @@ describe('CharacterRepository', () => {
     it('Happy path', async () => {
       remove.mockResolvedValue(undefined)
       expect(
-        characterRepository.deleteCharacter(mockCharacterId, mockUserId),
+        contactRepository.deleteContact(mockContactId, mockUserId),
       ).resolves.not.toThrow()
     })
 
-    it('Character delete unknown issue', async () => {
+    it('Contact delete unknown issue', async () => {
       remove.mockRejectedValue({ code: 'UNKNOWN_ERROR' }) // unhandled error code
       let response
       try {
-        response = await characterRepository.deleteCharacter(
-          mockCharacterId,
+        response = await contactRepository.deleteContact(
+          mockContactId,
           mockUserId,
         )
       } catch (err) {
@@ -202,15 +202,15 @@ describe('CharacterRepository', () => {
       }
       expect(response instanceof InternalServerErrorException).toBe(true)
     })
-    it('Try to delete a non existing character', async () => {
-      characterRepository.getCharacterById = jest
+    it('Try to delete a non existing contact', async () => {
+      contactRepository.getContactById = jest
         .fn()
         .mockResolvedValue(undefined)
 
       let response
       try {
-        response = await characterRepository.updateCharacter(
-          mockCharacterId,
+        response = await contactRepository.updateContact(
+          mockContactId,
           mockUserId,
         )
       } catch (err) {

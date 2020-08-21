@@ -7,29 +7,29 @@ import { Console } from 'console'
 
 const mockId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
 
-const mockCharacter = {
-  name: 'pepe',
-  image: 'some image',
-  hierarchy: 'hierarchy',
-  organization: 'organization',
+const mockContact = {
+  firstName: 'pepe',
+  lastName: 'pepón',
+  email: 'pepepepon@123.com',
+  phoneNumber: '696969696',
 }
-const MockCharacterNonExixitingId = {
-  name: 'pepe',
-  image: 'some image',
-  hierarchy: 'hierarchy',
-  organization: 'organization',
+const MockContactNonExixitingId = {
+  firstName: 'pepe',
+  lastName: 'pepón',
+  email: 'pepepepon@123.com',
+  phoneNumber: '696969696',
   id: mockId
 }
 
-async function createCharacter(
+async function createContact(
   app,
   accessToken,
-  internalCharacter = mockCharacter,
+  internalContact = mockContact,
 ) {
   return await request(app.getHttpServer())
-    .post('/characters')
+    .post('/contacts')
     .set('Authorization', `Bearer ${accessToken}`)
-    .send(internalCharacter)
+    .send(internalContact)
 }
 
 describe('AuthController (e2e)', () => {
@@ -59,127 +59,127 @@ describe('AuthController (e2e)', () => {
     await getConnection().close()
   })
 
-  describe('CharacterController create character', () => {
-    it('/characters (POST) Happy path', async () => {
+  describe('ContactController create contact', () => {
+    it('/contacts (POST) Happy path', async () => {
       const response = await request(app.getHttpServer())
-        .post('/characters')
+        .post('/contacts')
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(mockCharacter)
+        .send(mockContact)
       expect(response.status).toBe(201)
       expect(response.body.id).toBeTruthy()
-      expect(response.body.name).toBe('pepe')
-      expect(response.body.image).toBe('some image')
-      expect(response.body.hierarchy).toBe('hierarchy')
-      expect(response.body.organization).toBe('organization')
+      expect(response.body.firstName).toBe('pepe')
+      expect(response.body.lastName).toBe('pepón')
+      expect(response.body.email).toBe('pepepepon@123.com')
+      expect(response.body.phoneNumber).toBe('696969696')
       expect(response.body.user).toBeTruthy()
 
     })
-    it('/characters (POST) wrong params', async () => {
+    it('/contacts (POST) wrong params', async () => {
       const response = await request(app.getHttpServer())
-        .post('/characters')
+        .post('/contacts')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          ...mockCharacter,
-          name: 4,
+          ...mockContact,
+          firstName: 4,
         })
       expect(response.status).toBe(400)
       expect(response.body.error).toBe('Bad Request')
       expect(response.body.message.toString()).toBe(
         [
-          'name must be shorter than or equal to 20 characters',
-          'name must be a string',
+          'firstName must be shorter than or equal to 25 characters',
+          'firstName must be a string',
         ].join(','),
       )
     })
   })
 
-  describe('CharacterController update character', () => {
-    it('/characters/:id (PUT) Happy path', async () => {
-      const character = await createCharacter(app, accessToken)
+  describe('ContactController update contact', () => {
+    it('/contacts/:id (PUT) Happy path', async () => {
+      const contact = await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
-        .put(`/characters/${character.body.id}`)
+        .put(`/contacts/${contact.body.id}`)
         .set('Authorization', `Bearer ${accessToken}`)
-        .send({ ...mockCharacter, organization: 'Another organization' })
+        .send({ ...mockContact, email: 'pepepepon1@123.com' })
       expect(response.status).toBe(200)
     })
-    it('/characters/:id (PUT) Name is not unique', async () => {
-      const character = await createCharacter(app, accessToken)
-      const character2 = await createCharacter(app, accessToken, {
-        ...mockCharacter,
-        name: 'another name',
+    it('/contacts/:id (PUT) email is not unique', async () => {
+      const contact = await createContact(app, accessToken)
+      const contact2 = await createContact(app, accessToken, {
+        ...mockContact,
+        email: 'pepepepon1@123.com',
       })
       const response = await request(app.getHttpServer())
-        .put(`/characters/${character.body.id}`)
+        .put(`/contacts/${contact.body.id}`)
         .set('Authorization', `Bearer ${accessToken}`)
-        .send({ ...mockCharacter, name: character2.body.name })
+        .send({ ...mockContact, email: contact2.body.email })
       expect(response.status).toBe(403)
     })
-    it('/characters/:id (PUT) Character id does not exist', async () => {
+    it('/contacts/:id (PUT) Contact id does not exist', async () => {
       const response = await request(app.getHttpServer())
-        .put(`/characters/${mockId}`)
+        .put(`/contacts/${mockId}`)
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(MockCharacterNonExixitingId)
+        .send(MockContactNonExixitingId)
       expect(response.status).toBe(400)
     })
-    it('/characters/:id (PUT) Character name is too long', async () => {
-      const character = await createCharacter(app, accessToken)
+    it('/contacts/:id (PUT) Contact firtName is too long', async () => {
+      const contact = await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
-        .put(`/characters/${character.body.id}`)
+        .put(`/characters/${contact.body.id}`)
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          ...mockCharacter,
-          name: 'very but very very long name, even more than my...',
+          ...mockContact,
+          firtName: 'very but very very long firtName, even more than my... really soooo long',
         })
       expect(response.status).toBe(400)
       expect(response.body.message.toString()).toBe(
-        'name must be shorter than or equal to 20 characters',
+        'firtName must be shorter than or equal to 25 characters',
       )
     })
-    it('/characters/:id (PUT) Wrong params', async () => {
-      const character = await createCharacter(app, accessToken)
+    it('/contacts/:id (PUT) Wrong params', async () => {
+      const contact = await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
-        .put(`/characters/${character.body.id}`)
+        .put(`/contacts/${contact.body.id}`)
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
-          ...mockCharacter,
-          organization: 4,
+          ...mockContact,
+          email: 4,
         })
       expect(response.status).toBe(400)
       expect(response.body.message.toString()).toBe(
-        'organization must be a string',
+        'email must be a string',
       )
     })
   })
 
-  describe('CharacterController get character', () => {
-    it('/characters (GET) Happy path', async () => {
-      await createCharacter(app, accessToken)
+  describe('ContactController get contact', () => {
+    it('/contacts (GET) Happy path', async () => {
+      await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
-        .get('/characters')
+        .get('/contacts')
         .set('Authorization', `Bearer ${accessToken}`)
       expect(response.status).toBe(200)
       expect(response.body[0].id).toBeTruthy()
-      expect(response.body[0].name).toBe('pepe')
-      expect(response.body[0].image).toBe('some image')
-      expect(response.body[0].hierarchy).toBe('hierarchy')
-      expect(response.body[0].organization).toBe('organization')
+      expect(response.body[0].firstName).toBe('pepe')
+      expect(response.body[0].lastName).toBe('pepón')
+      expect(response.body[0].email).toBe('pepepepon@123.com')
+      expect(response.body[0].phoneNumber).toBe('696969696')
       expect(response.body[0].user).toBeTruthy()
     })
   })
 
-  describe('CharacterController delete character', () => {
+  describe('ContactController delete contact', () => {
     it('/characters/:id (DELETE) Happy path', async () => {
-      const character = await createCharacter(app, accessToken)
+      const contact = await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
-        .delete(`/characters/${character.body.id}`)
+        .delete(`/contacts/${contact.body.id}`)
         .set('Authorization', `Bearer ${accessToken}`)
       expect(response.status).toBe(200)
     })
-    it('/characters/:id (DELETE) Character id does not exist', async () => {
+    it('/contacts/:id (DELETE) Contact id does not exist', async () => {
       const response = await request(app.getHttpServer())
-        .delete(`/characters/${mockId}`)
+        .delete(`/contacts/${mockId}`)
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(mockCharacter)
+        .send(mockContact)
       expect(response.status).toBe(400)
     })
   })

@@ -3,7 +3,6 @@ import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../../../app.module'
 import { getConnection } from 'typeorm'
-import { Console } from 'console'
 
 const mockId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
 
@@ -124,15 +123,15 @@ describe('AuthController (e2e)', () => {
     it('/contacts/:id (PUT) Contact firtName is too long', async () => {
       const contact = await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
-        .put(`/characters/${contact.body.id}`)
+        .put(`/contacts/${contact.body.id}`)
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
           ...mockContact,
-          firtName: 'very but very very long firtName, even more than my... really soooo long',
+          firstName: 'very but very very long firtName, even more than my... really soooo long',
         })
       expect(response.status).toBe(400)
       expect(response.body.message.toString()).toBe(
-        'firtName must be shorter than or equal to 25 characters',
+        'firstName must be shorter than or equal to 25 characters',
       )
     })
     it('/contacts/:id (PUT) Wrong params', async () => {
@@ -146,7 +145,10 @@ describe('AuthController (e2e)', () => {
         })
       expect(response.status).toBe(400)
       expect(response.body.message.toString()).toBe(
-        'email must be a string',
+        [
+          'email must be shorter than or equal to 35 characters',
+          'email must be a string',
+        ].join(','),
       )
     })
   })
@@ -168,7 +170,7 @@ describe('AuthController (e2e)', () => {
   })
 
   describe('ContactController delete contact', () => {
-    it('/characters/:id (DELETE) Happy path', async () => {
+    it('/contacts/:id (DELETE) Happy path', async () => {
       const contact = await createContact(app, accessToken)
       const response = await request(app.getHttpServer())
         .delete(`/contacts/${contact.body.id}`)

@@ -23,7 +23,7 @@ import { GetUser } from '../../../auth/infrastructure/service/get-user.decorator
 import { AuthService } from '../../../auth/application/auth.service'
 import { UserPresenter } from '../../../auth/infrastructure/presenters/user.presenter'
 import { ContactDto } from 'src/contact/domain/dto/contact.dto'
-import { UpdateContactDto } from 'src/contact/domain/dto/update-contact.dto'
+import { UpdateContactDto } from '../../../contact/domain/dto/update-contact.dto'
 
 @Controller('contacts')
 @ApiBearerAuth()
@@ -53,7 +53,7 @@ export class ContactsController {
   }
   @Put('/:id')
   @UsePipes(ValidationPipe)
-  updateCharacter(
+  updateContact(
     @Param('id', ParseUUIDPipe) id: string,
     @Body()
     updateContactDto: UpdateContactDto,

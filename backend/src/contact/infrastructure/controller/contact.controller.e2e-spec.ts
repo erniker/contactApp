@@ -10,13 +10,13 @@ const mockContact = {
   firstName: 'pepe',
   lastName: 'pepón',
   email: 'pepepepon@123.com',
-  phoneNumber: '696969696',
+  phoneNumber: '+34 663113649',
 }
 const MockContactNonExixitingId = {
   firstName: 'pepe',
   lastName: 'pepón',
   email: 'pepepepon@123.com',
-  phoneNumber: '696969696',
+  phoneNumber: '+34 663113649',
   id: mockId
 }
 
@@ -69,7 +69,7 @@ describe('AuthController (e2e)', () => {
       expect(response.body.firstName).toBe('pepe')
       expect(response.body.lastName).toBe('pepón')
       expect(response.body.email).toBe('pepepepon@123.com')
-      expect(response.body.phoneNumber).toBe('696969696')
+      expect(response.body.phoneNumber).toBe('+34 663113649')
       expect(response.body.user).toBeTruthy()
 
     })
@@ -145,7 +145,7 @@ describe('AuthController (e2e)', () => {
         })
       expect(response.status).toBe(400)
       expect(response.body.message.toString()).toBe(
-        [
+        ['email must be an email',
           'email must be shorter than or equal to 35 characters',
           'email must be a string',
         ].join(','),
@@ -164,7 +164,7 @@ describe('AuthController (e2e)', () => {
       expect(response.body[0].firstName).toBe('pepe')
       expect(response.body[0].lastName).toBe('pepón')
       expect(response.body[0].email).toBe('pepepepon@123.com')
-      expect(response.body[0].phoneNumber).toBe('696969696')
+      expect(response.body[0].phoneNumber).toBe('+34 663113649')
       expect(response.body[0].user).toBeTruthy()
     })
   })

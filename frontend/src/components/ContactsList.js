@@ -26,7 +26,7 @@ class ContactsList extends Component {
         return obj.id !== id;
       });
 
-      self.setState({ customers: newArr });
+      self.setState({ contacts: newArr });
     });
   }
 

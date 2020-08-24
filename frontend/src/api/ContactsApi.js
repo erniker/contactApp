@@ -1,11 +1,11 @@
 import axios from "axios";
-const API_URL = "http://localhost:8000";
+const API_URL = "http://localhost:8080";
 
 export default class ContactsApi {
   constructor() {}
 
   getContacts() {
-    const url = `${API_URL}contacts/`;
+    const url = `${API_URL}/contacts/`;
     return axios.get(url).then((response) => response.data);
   }
 

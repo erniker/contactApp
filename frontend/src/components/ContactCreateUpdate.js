@@ -15,10 +15,10 @@ class ContactCreateUpdate extends Component {
     } = this.props;
     if (params && params.id) {
       contactsService.getContact(params.id).then((contact) => {
-        this.refs.firstName.value = contact.first_name;
-        this.refs.lastName.value = contact.last_name;
-        this.refs.phoneNumber.value = contact.phone;
-        this.refs.email.value = contact.email;
+        this.firstName = contact.firstName;
+        this.lastName = contact.lastName;
+        this.phoneNumber = contact.phoneNumber;
+        this.email = contact.email;
       });
     }
   }
@@ -26,10 +26,10 @@ class ContactCreateUpdate extends Component {
   handleCreate() {
     contactsService
       .createContact({
-        firstName: this.refs.firstName.value,
-        lastName: this.refs.lastName.value,
-        phoneNumber: this.refs.phoneNumber.value,
-        email: this.refs.email.value,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        phoneNumber: this.phoneNumber,
+        email: this.email,
       })
       .then((result) => {
         alert("Contact created!");
@@ -44,10 +44,10 @@ class ContactCreateUpdate extends Component {
     contactsService
       .updateContact({
         id: id,
-        firstName: this.refs.firstName.value,
-        lastName: this.refs.lastName.value,
-        phoneNumber: this.refs.phoneNumber.value,
-        email: this.refs.email.value,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        phoneNumber: this.phoneNumber,
+        email: this.email,
       })
       .then((result) => {
         console.log(result);
@@ -82,7 +82,7 @@ class ContactCreateUpdate extends Component {
           <input className="form-control" type="text" ref="lastName" />
 
           <label>Phone:</label>
-          <input className="form-control" type="text" ref="phone" />
+          <input className="form-control" type="text" ref="phoneNumber" />
 
           <label>Email:</label>
           <input className="form-control" type="text" ref="email" />

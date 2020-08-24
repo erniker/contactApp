@@ -16,7 +16,7 @@ class ContactsList extends Component {
     var self = this;
     contactsService.getContacts().then(function (result) {
       console.log(result);
-      self.setState({ contacts: result.data });
+      self.setState({ contacts: result });
     });
   }
   handleDelete(e, id) {

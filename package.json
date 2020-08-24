@@ -1,0 +1,23 @@
+{
+  "name": "mafia-game",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "backend-new",
+    "frontend-admin",
+    "frontend-game"
+  ],
+  "scripts": {
+    "frontend-game": "yarn workspace frontend-game develop",
+    "frontend-admin": "yarn workspace frontend-admin serve",
+    "backend": "yarn workspace backend-new start:dev",
+    "start": "concurrently --kill-others-on-fail \"yarn backend\"  \"yarn frontend-game\" \"yarn frontend-admin\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
+}

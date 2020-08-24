@@ -9,7 +9,6 @@ export default class ContactsApi {
     return axios.get(url).then((response) => response.data);
   }
 
-  // TODO: Not implemented yet
   getContact(id) {
     const url = `${API_URL}/contacts/${id}`;
     return axios.get(url).then((response) => response.data);

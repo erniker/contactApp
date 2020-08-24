@@ -13,7 +13,7 @@ class ContactCreateUpdate extends Component {
     const {
       match: { params },
     } = this.props;
-    if (params && params.pk) {
+    if (params && params.id) {
       contactsService.getContact(params.id).then((contact) => {
         this.refs.firstName.value = contact.first_name;
         this.refs.lastName.value = contact.last_name;
@@ -62,7 +62,7 @@ class ContactCreateUpdate extends Component {
       match: { params },
     } = this.props;
 
-    if (params && params.pk) {
+    if (params && params.id) {
       this.handleUpdate(params.id);
     } else {
       this.handleCreate();

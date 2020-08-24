@@ -5,6 +5,11 @@ export function getContacts() {
   return API.get(url);
 }
 
+export function getContact(id) {
+  let url = `/contacts/${id}`;
+  return API.get(url);
+}
+
 export function deleteContact(id) {
   let url = `/contacts/${id}`;
   return API.delete(url);

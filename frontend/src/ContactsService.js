@@ -8,16 +8,23 @@ export default class ContactsService {
     const url = `${API_URL}contacts/`;
     return axios.get(url).then((response) => response.data);
   }
+
+  // TODO: Not implemented yet
+  getCustomer(id) {
+    const url = `${API_URL}/contacts/${id}`;
+    return axios.get(url).then((response) => response.data);
+  }
+
   deleteContact(contact) {
     const url = `${API_URL}/contacts/${contact.id}`;
     return axios.delete(url);
   }
   createContact(contact) {
     const url = `${API_URL}/contacts/`;
-    return axios.post(url, customer);
+    return axios.post(url, contact);
   }
   updateContact(contact) {
     const url = `${API_URL}/contacts/${contact.id}`;
-    return axios.put(url, customer);
+    return axios.put(url, contact);
   }
 }

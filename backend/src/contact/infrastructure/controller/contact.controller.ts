@@ -66,9 +66,22 @@ export class ContactsController {
     )
   }
   @Get()
-  async getContact(): Promise<ContactDto[]> {
-    return this.contactService.getContact()
+  async getContacts(): Promise<ContactDto[]> {
+    return this.contactService.getContacts()
   }
+
+  @Get('/:id')
+  @UsePipes(ValidationPipe)
+  getContact(
+    @Param('id', ParseUUIDPipe) id: string,
+    @GetUser() user: User,
+  ): Promise<ContactDto> {
+    return this.contactService.getContactById(
+      id,
+      user.id,
+    )
+  }
+
   @Delete('/:id')
   @UsePipes(ValidationPipe)
   deleteContact(

@@ -15,6 +15,7 @@ import { UpdateContactDto } from 'src/contact/domain/dto/update-contact.dto'
 @EntityRepository(Contact)
 export class ContactRepositoryTypeorm extends Repository<Contact>
   implements ContactRepository {
+
   async createContact(
     createContact: CreateContactDto,
     userId: string,

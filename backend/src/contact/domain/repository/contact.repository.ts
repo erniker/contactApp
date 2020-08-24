@@ -13,6 +13,9 @@ export interface ContactRepository {
     userId: string,
   ): Promise<void>
   getContacts(): Promise<ContactDto[]>
+
+  getContactById(contactId: string, userId: string): Promise<ContactDto>
+
   deleteContact(contactId: string, userId: string): Promise<void>
 }
 

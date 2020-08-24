@@ -9,8 +9,6 @@ import { ContactDto } from '../domain/dto/contact.dto'
 
 @Injectable()
 export class ContactService {
-  private logger = new Logger('ContactService')
-
   constructor(
     @Inject(CONTACT_REPOSITORY)
     private contactRepository: ContactRepository,
@@ -35,8 +33,12 @@ export class ContactService {
     )
   }
 
-  async getContact(): Promise<ContactDto[]> {
+  async getContacts(): Promise<ContactDto[]> {
     return this.contactRepository.getContacts()
+  }
+
+  async getContactById(contactId: string, userId: string): Promise<ContactDto> {
+    return this.contactRepository.getContactById(contactId, userId)
   }
 
   async deleteContact(contactId: string, userId: string): Promise<void> {

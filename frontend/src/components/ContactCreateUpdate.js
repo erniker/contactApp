@@ -13,6 +13,7 @@ class ContactCreateUpdate extends Component {
     const {
       match: { params },
     } = this.props;
+
     if (params && params.id) {
       contactsService.getContact(params.id).then((contact) => {
         this.firstName = contact.firstName;
@@ -41,6 +42,7 @@ class ContactCreateUpdate extends Component {
       });
   }
   handleUpdate(id) {
+    console.log(this);
     contactsService
       .updateContact({
         id: id,

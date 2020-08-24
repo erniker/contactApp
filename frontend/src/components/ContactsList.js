@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import ContactsService from "../ContactsService";
+import ContactsApi from "../api/ContactsApi";
 
-const contactsService = new ContactsService();
+const contactsService = new ContactsApi();
 
 class ContactsList extends Component {
   constructor(props) {

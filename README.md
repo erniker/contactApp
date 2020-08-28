@@ -2,7 +2,7 @@
 
 A simple contacts app, where we can get a list of contact, create, edit and delete contacts
 
-## Comenzando 🚀
+## Starting-up 🚀
 
 _Follow the next steps to run the proyect_
 
@@ -30,14 +30,44 @@ For backend:
 cd frontend
 yarn install
 ```
+You need have an a postgres db called contactApp. You could use dockers by typing a command like this:
+```bash
+docker run --name contactApp -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432
+```
+
+And now, make migrations:
+```bash
+cd backend
+yarn db:migration:create first-migration
+```
+After this:
+```bash
+yarn db:migration:run
+```
+And, in order to avoid compilation errors:
+```bash
+yarn db:migration:to-js
+```
+
+## Running app ⭐
+
+To run backend in dev mode:
+```bash
+cd backend
+yarn start:dev
+```
+To run frontend:
+```bash
+cd frontend
+yarn start
+```
 
 ## Running tests ⚙️
 
-- You need to create the DB contactsApp-test to run all the behavioural tests there
+- You must to create the DB contactsApp-test to run all the behavioural tests there
 - Go to the backend folder
 ```bash
 cd backend
-yarn install
 ```
 - Run `yarn test:unit` to get the unit tests executed
 - Run `yarn test:behaviour` to get the behavioural tests executed

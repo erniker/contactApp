@@ -24,12 +24,19 @@ For backend:
 cd backend
 yarn install
 ```
+You need configure a .env file in ./src. You can use .env.example.
 
 For backend:
 ```bash
 cd frontend
 yarn install
 ```
+You need here another .env, in ./src:
+```bash
+REACT_APP_APP_NAME="ContactsApp"
+REACT_APP_BASE_URL=http://localhost:8080
+```
+
 You need have an a postgres db called contactApp. You could use dockers by typing a command like this:
 ```bash
 docker run --name contactApp -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432

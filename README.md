@@ -4,11 +4,11 @@ A simple contacts app, where we can get a list of contact, create, edit and dele
 
 ## Starting-up 🚀
 
-_Follow the next steps to run the proyect_
+_Follow the next steps to run the project
 
 ### Installing 🔧
 
-Download proyect: 
+Download project: 
 
 ```bash
 # From Source
@@ -74,24 +74,20 @@ cd backend
 - Run `yarn test:unit:cov` to get a unit test coverage report
 - Run `yarn test:cov` to get a full coverage report
 
-## Construido con 🛠️
+## Built with 🛠️
 
 * [NodeJS](https://nodejs.org/es/) - A JavaScript runtim
 * [NestJS](https://nestjs.com/) - A progressive Node.js framework
 * [REACT](https://reactjs.org/) - A JavaScript library for building user interfaces
 * [BOOTSTRAP](https://getbootstrap.com/) - A popular front-end open source toolkit
 
-## Autores ✒️
+## Author ✒️
 
 * **José Pablo Medina Grande** - [erniker](https://github.com/erniker)
 
-## Licencia 📄
+## acknowledgement 🎁
 
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
-
-## Agradecimientos 🎁
-
-* To Frzurita, who taught me almost everything I know (https://github.com/Frzurita)
+* To Frzurita, who taught me almost everything I know. -> Frzurita.https://github.com/Frzurita)
 
 
 ---

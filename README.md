@@ -4,7 +4,7 @@ A simple contacts app, where we can get a list of contact, create, edit and dele
 
 ## Starting-up 🚀
 
-_Follow the next steps to run the project
+_Follow the next steps to run the project_
 
 ### Installing 🔧
 

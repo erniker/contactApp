@@ -21,59 +21,49 @@ export default function ContactCreateUpdate(props) {
 
   const handleCreate = () => {
     contactsService
-      .createContact({
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        phoneNumber: contact.phoneNumber,
-        email: contact.email,
-      })
+      .createContact(contact)
       .then((result) => {
-        setContact(result);
-        alert("Contact created!");
-        window.location.href = "/";
+        setResult(result, "Contact created!");
       })
       .catch((err) => {
-        if ((err.response.data.statusCode = 409)) {
-          if (err.response.data.error === "Bad Request") {
-            alert(err.response.data.message.join("\n"));
-          } else {
-            alert(err.response.data.message);
-          }
-        } else {
-          alert("There was an error! Please check your form.");
-        }
+        displayErrors(err);
       });
   };
-  const handleUpdate = (id, contact) => {
+  const handleUpdate = (id) => {
     contactsService
       .updateContact({
         id: id,
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        phoneNumber: contact.phoneNumber,
-        email: contact.email,
+        ...contact,
       })
       .then((result) => {
-        setContact(result);
-        alert("Contact updated!");
-        window.location.href = "/";
+        setResult(result, "Contact updated!");
       })
       .catch((err) => {
-        if ((err.response.data.statusCode = 409)) {
-          if (err.response.data.error === "Bad Request") {
-            alert(err.response.data.message.join("\n"));
-          } else {
-            alert(err.response.data.message);
-          }
-        } else {
-          alert("There was an error! Please check your form.");
-        }
+        displayErrors(err);
       });
+  };
+
+  const displayErrors = (err) => {
+    if ((err.response.data.statusCode = 409)) {
+      if (err.response.data.error === "Bad Request") {
+        alert(err.response.data.message.join("\n"));
+      } else {
+        alert(err.response.data.message);
+      }
+    } else {
+      alert("There was an error! Please check your form.");
+    }
+  };
+
+  const setResult = (result, message) => {
+    setContact(result);
+    alert(message);
+    window.location.href = "/";
   };
 
   const handleSubmit = (event) => {
     if (props.match.params && props.match.params.id) {
-      handleUpdate(props.match.params.id, contact);
+      handleUpdate(props.match.params.id);
     } else {
       handleCreate();
     }

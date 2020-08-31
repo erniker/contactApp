@@ -2,8 +2,6 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 export default class ContactsApi {
-  constructor() {}
-
   getContacts() {
     const url = `${API_URL}/contacts/`;
     return axios.get(url).then((response) => response.data);
@@ -18,10 +16,12 @@ export default class ContactsApi {
     const url = `${API_URL}/contacts/${contact.id}`;
     return axios.delete(url);
   }
+
   createContact(contact) {
     const url = `${API_URL}/contacts/`;
     return axios.post(url, contact);
   }
+
   updateContact(contact) {
     const url = `${API_URL}/contacts/${contact.id}`;
     return axios.put(url, contact);

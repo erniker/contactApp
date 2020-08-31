@@ -17,7 +17,7 @@ describe('ContactRepository', () => {
     phoneNumber: '696969696',
   }
   const mockContactId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
-  const mockUserId: string = 'z99z99z9-9z99-999z-9z99-999999z9zzz9'
+
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -51,8 +51,7 @@ describe('ContactRepository', () => {
       let response
       try {
         response = await contactRepository.createContact(
-          mockCreateOrUpdateContactDtoSuccess,
-          mockUserId
+          mockCreateOrUpdateContactDtoSuccess
         )
       } catch (err) {
         response = err
@@ -65,8 +64,7 @@ describe('ContactRepository', () => {
       let response
       try {
         response = await contactRepository.createContact(
-          mockCreateOrUpdateContactDtoSuccess,
-          mockUserId
+          mockCreateOrUpdateContactDtoSuccess
         )
       } catch (err) {
         response = err
@@ -88,8 +86,7 @@ describe('ContactRepository', () => {
       expect(
         contactRepository.updateContact(
           mockContactId,
-          mockCreateOrUpdateContactDtoSuccess,
-          mockUserId,
+          mockCreateOrUpdateContactDtoSuccess
         ),
       ).resolves.not.toThrow()
     })
@@ -100,8 +97,7 @@ describe('ContactRepository', () => {
       try {
         response = await contactRepository.updateContact(
           mockContactId,
-          mockCreateOrUpdateContactDtoSuccess,
-          mockUserId,
+          mockCreateOrUpdateContactDtoSuccess
         )
       } catch (err) {
         response = err
@@ -117,8 +113,8 @@ describe('ContactRepository', () => {
       try {
         response = await contactRepository.updateContact(
           mockContactId,
-          mockCreateOrUpdateContactDtoSuccess,
-          mockUserId,
+          mockCreateOrUpdateContactDtoSuccess
+          // mockUserId,
         )
       } catch (err) {
         response = err
@@ -135,8 +131,6 @@ describe('ContactRepository', () => {
         lastName: 'pepón',
         email: 'pepepepon@123.com',
         phoneNumber: '696969696',
-        user: {},
-        userId: 'string',
         createdAt: 'string',
         updatedAt: 'string',
       },
@@ -146,8 +140,6 @@ describe('ContactRepository', () => {
         lastName: 'pepón',
         email: 'pepepepon@123.com',
         phoneNumber: '696969696',
-        user: {},
-        userId: 'string',
         createdAt: 'string',
         updatedAt: 'string',
       },
@@ -185,7 +177,8 @@ describe('ContactRepository', () => {
     it('Happy path', async () => {
       remove.mockResolvedValue(undefined)
       expect(
-        contactRepository.deleteContact(mockContactId, mockUserId),
+        contactRepository.deleteContact(mockContactId
+        ),
       ).resolves.not.toThrow()
     })
 
@@ -194,8 +187,7 @@ describe('ContactRepository', () => {
       let response
       try {
         response = await contactRepository.deleteContact(
-          mockContactId,
-          mockUserId,
+          mockContactId
         )
       } catch (err) {
         response = err
@@ -209,14 +201,13 @@ describe('ContactRepository', () => {
 
       let response
       try {
-        response = await contactRepository.updateContact(
-          mockContactId,
-          mockUserId,
+        response = await contactRepository.deleteContact(
+          mockContactId
         )
       } catch (err) {
         response = err
       }
-      expect(response instanceof BadRequestException).toBe(true)
+      expect(response instanceof InternalServerErrorException).toBe(true)
     })
   })
 })

@@ -1,69 +1,82 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import ContactsApi from "../api/ContactsApi";
 
 const contactsService = new ContactsApi();
 
-class ContactsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      contacts: [],
-    };
-    this.handleDelete = this.handleDelete.bind(this);
-  }
+export default function ContactsList() {
+  const [contacts, setContacts] = useState([]);
 
-  componentDidMount() {
-    var self = this;
-    contactsService.getContacts().then(function (result) {
-      console.log(result);
-      self.setState({ contacts: result });
+  useEffect(() => {
+    contactsService.getContacts().then((response) => {
+      setContacts(response);
     });
-  }
-  handleDelete(e, id) {
-    var self = this;
+  }, []);
+
+  const handleDelete = (id) => {
     contactsService.deleteContact({ id: id }).then(() => {
-      var newArr = self.state.contacts.filter(function (obj) {
+      var newArr = contacts.filter(function (obj) {
         return obj.id !== id;
       });
-
-      self.setState({ contacts: newArr });
+      setContacts(newArr);
     });
-  }
+  };
 
-  render() {
-    return (
-      <div className="contacts--list">
-        <table className="table">
-          <thead key="thead">
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.contacts.map((contact) => (
-              <tr key={contact.id}>
-                <td>{contact.id} </td>
-                <td>{contact.firstName}</td>
-                <td>{contact.lastName}</td>
-                <td>{contact.email}</td>
-                <td>{contact.phoneNumber}</td>
-                <td>
-                  <button onClick={(e) => this.handleDelete(e, contact.id)}>
+  return (
+    <div className="table-responsive">
+      <table className="table table-striped">
+        <thead key="thead">
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {contacts.map((contact, index) => (
+            <tr key={index}>
+              <td>{index + 1} </td>
+              <td>{contact.firstName}</td>
+              <td>{contact.lastName}</td>
+              <td>{contact.phoneNumber}</td>
+              <td>{contact.email}</td>
+              <td>
+                <div className="btn-group">
+                  <button
+                    type="button"
+                    className="btn btn-danger contactlist-btn-space"
+                    onClick={(e) => {
+                      if (
+                        window.confirm(
+                          "Are you sure you wish to delete this item?"
+                        )
+                      )
+                        handleDelete(contact.id);
+                    }}
+                  >
                     {" "}
                     Delete
                   </button>
-                  <a href={"/contact/" + contact.id}> Update</a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+
+                  <button
+                    type="button"
+                    className="btn btn-warning contactlist-btn-space"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.location.href = "/contact/" + contact.id;
+                    }}
+                  >
+                    {" "}
+                    Update
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
-export default ContactsList;

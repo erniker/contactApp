@@ -1,0 +1,16 @@
+.submit-btn-space {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.abs-center {
+    display: flex;
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.form {
+    width: 450px;
+}

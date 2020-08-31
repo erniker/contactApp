@@ -22,18 +22,15 @@ const MockContactNonExixitingId = {
 
 async function createContact(
   app,
-  accessToken,
   internalContact = mockContact,
 ) {
   return await request(app.getHttpServer())
     .post('/contacts')
-    .set('Authorization', `Bearer ${accessToken}`)
     .send(internalContact)
 }
 
-describe('AuthController (e2e)', () => {
+describe('AppController (e2e)', () => {
   let app: INestApplication
-  let accessToken: string
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -43,15 +40,6 @@ describe('AuthController (e2e)', () => {
     app = moduleFixture.createNestApplication()
     await app.init()
     await getConnection().synchronize(true)
-    await request(app.getHttpServer())
-      .post('/auth/signup')
-      .send({
-        username: 'pepe',
-        password: '123$%Peaa',
-      })
-      .expect(function (res) {
-        accessToken = res.body.accessToken
-      })
   })
 
   afterEach(async () => {
@@ -62,7 +50,6 @@ describe('AuthController (e2e)', () => {
     it('/contacts (POST) Happy path', async () => {
       const response = await request(app.getHttpServer())
         .post('/contacts')
-        .set('Authorization', `Bearer ${accessToken}`)
         .send(mockContact)
       expect(response.status).toBe(201)
       expect(response.body.id).toBeTruthy()
@@ -70,13 +57,11 @@ describe('AuthController (e2e)', () => {
       expect(response.body.lastName).toBe('pepón')
       expect(response.body.email).toBe('pepepepon@123.com')
       expect(response.body.phoneNumber).toBe('+34 663113649')
-      expect(response.body.user).toBeTruthy()
 
     })
     it('/contacts (POST) wrong params', async () => {
       const response = await request(app.getHttpServer())
         .post('/contacts')
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({
           ...mockContact,
           firstName: 4,
@@ -94,37 +79,33 @@ describe('AuthController (e2e)', () => {
 
   describe('ContactController update contact', () => {
     it('/contacts/:id (PUT) Happy path', async () => {
-      const contact = await createContact(app, accessToken)
+      const contact = await createContact(app)
       const response = await request(app.getHttpServer())
         .put(`/contacts/${contact.body.id}`)
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({ ...mockContact, email: 'pepepepon1@123.com' })
       expect(response.status).toBe(200)
     })
     it('/contacts/:id (PUT) email is not unique', async () => {
-      const contact = await createContact(app, accessToken)
-      const contact2 = await createContact(app, accessToken, {
+      const contact = await createContact(app)
+      const contact2 = await createContact(app, {
         ...mockContact,
         email: 'pepepepon1@123.com',
       })
       const response = await request(app.getHttpServer())
         .put(`/contacts/${contact.body.id}`)
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({ ...mockContact, email: contact2.body.email })
       expect(response.status).toBe(403)
     })
     it('/contacts/:id (PUT) Contact id does not exist', async () => {
       const response = await request(app.getHttpServer())
         .put(`/contacts/${mockId}`)
-        .set('Authorization', `Bearer ${accessToken}`)
         .send(MockContactNonExixitingId)
       expect(response.status).toBe(400)
     })
     it('/contacts/:id (PUT) Contact firtName is too long', async () => {
-      const contact = await createContact(app, accessToken)
+      const contact = await createContact(app)
       const response = await request(app.getHttpServer())
         .put(`/contacts/${contact.body.id}`)
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({
           ...mockContact,
           firstName: 'very but very very long firtName, even more than my... really soooo long',
@@ -135,52 +116,44 @@ describe('AuthController (e2e)', () => {
       )
     })
     it('/contacts/:id (PUT) Wrong params', async () => {
-      const contact = await createContact(app, accessToken)
+      const contact = await createContact(app)
       const response = await request(app.getHttpServer())
         .put(`/contacts/${contact.body.id}`)
-        .set('Authorization', `Bearer ${accessToken}`)
         .send({
           ...mockContact,
           email: 4,
         })
       expect(response.status).toBe(400)
       expect(response.body.message.toString()).toBe(
-        ['email must be an email',
-          'email must be shorter than or equal to 35 characters',
-          'email must be a string',
-        ].join(','),
+        'email must be an email'
       )
     })
   })
 
   describe('ContactController get contact', () => {
     it('/contacts (GET) Happy path', async () => {
-      await createContact(app, accessToken)
+      await createContact(app)
       const response = await request(app.getHttpServer())
         .get('/contacts')
-        .set('Authorization', `Bearer ${accessToken}`)
       expect(response.status).toBe(200)
       expect(response.body[0].id).toBeTruthy()
       expect(response.body[0].firstName).toBe('pepe')
       expect(response.body[0].lastName).toBe('pepón')
       expect(response.body[0].email).toBe('pepepepon@123.com')
       expect(response.body[0].phoneNumber).toBe('+34 663113649')
-      expect(response.body[0].user).toBeTruthy()
     })
   })
 
   describe('ContactController delete contact', () => {
     it('/contacts/:id (DELETE) Happy path', async () => {
-      const contact = await createContact(app, accessToken)
+      const contact = await createContact(app)
       const response = await request(app.getHttpServer())
         .delete(`/contacts/${contact.body.id}`)
-        .set('Authorization', `Bearer ${accessToken}`)
       expect(response.status).toBe(200)
     })
     it('/contacts/:id (DELETE) Contact id does not exist', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/contacts/${mockId}`)
-        .set('Authorization', `Bearer ${accessToken}`)
         .send(mockContact)
       expect(response.status).toBe(400)
     })

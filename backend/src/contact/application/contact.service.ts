@@ -16,20 +16,17 @@ export class ContactService {
 
   async createContact(
     createContact: CreateContactDto,
-    userId: string,
   ): Promise<ContactDto> {
-    return this.contactRepository.createContact(createContact, userId)
+    return this.contactRepository.createContact(createContact)
   }
 
   async updateContact(
     contactId: string,
     updateContact: UpdateContactDto,
-    userId: string,
   ): Promise<void> {
     return this.contactRepository.updateContact(
       contactId,
       updateContact,
-      userId,
     )
   }
 
@@ -37,11 +34,11 @@ export class ContactService {
     return this.contactRepository.getContacts()
   }
 
-  async getContactById(contactId: string, userId: string): Promise<ContactDto> {
-    return this.contactRepository.getContactById(contactId, userId)
+  async getContactById(contactId: string): Promise<ContactDto> {
+    return this.contactRepository.getContactById(contactId)
   }
 
-  async deleteContact(contactId: string, userId: string): Promise<void> {
-    return this.contactRepository.deleteContact(contactId, userId)
+  async deleteContact(contactId: string): Promise<void> {
+    return this.contactRepository.deleteContact(contactId)
   }
 }

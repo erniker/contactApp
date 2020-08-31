@@ -1,99 +1,135 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import ContactsApi from "../api/ContactsApi";
 
 const contactsService = new ContactsApi();
 
-class ContactCreateUpdate extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+export default function ContactCreateUpdate(props) {
+  const [contact, setContact] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+  });
 
-  componentDidMount() {
-    const {
-      match: { params },
-    } = this.props;
-
-    if (params && params.id) {
-      contactsService.getContact(params.id).then((contact) => {
-        this.firstName = contact.firstName;
-        this.lastName = contact.lastName;
-        this.phoneNumber = contact.phoneNumber;
-        this.email = contact.email;
+  useEffect(() => {
+    if (props.match.params && props.match.params.id) {
+      contactsService.getContact(props.match.params.id).then((result) => {
+        setContact(result);
       });
     }
-  }
+  }, [props]);
 
-  handleCreate() {
+  const handleCreate = () => {
     contactsService
       .createContact({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        phoneNumber: this.phoneNumber,
-        email: this.email,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        phoneNumber: contact.phoneNumber,
+        email: contact.email,
       })
       .then((result) => {
+        setContact(result);
         alert("Contact created!");
+        window.location.href = "/";
       })
-      .catch(() => {
-        alert(
-          "There was an error! Please check your form. Remember all fields are mandatory"
-        );
+      .catch((err) => {
+        if ((err.response.data.statusCode = 409)) {
+          if (err.response.data.error === "Bad Request") {
+            alert(err.response.data.message.join("\n"));
+          } else {
+            alert(err.response.data.message);
+          }
+        } else {
+          alert("There was an error! Please check your form.");
+        }
       });
-  }
-  handleUpdate(id) {
-    console.log(this);
+  };
+  const handleUpdate = (id, contact) => {
     contactsService
       .updateContact({
         id: id,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        phoneNumber: this.phoneNumber,
-        email: this.email,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        phoneNumber: contact.phoneNumber,
+        email: contact.email,
       })
       .then((result) => {
-        console.log(result);
+        setContact(result);
         alert("Contact updated!");
+        window.location.href = "/";
       })
-      .catch(() => {
-        alert("There was an error! Please check your form.");
+      .catch((err) => {
+        if ((err.response.data.statusCode = 409)) {
+          if (err.response.data.error === "Bad Request") {
+            alert(err.response.data.message.join("\n"));
+          } else {
+            alert(err.response.data.message);
+          }
+        } else {
+          alert("There was an error! Please check your form.");
+        }
       });
-  }
-  handleSubmit(event) {
-    const {
-      match: { params },
-    } = this.props;
+  };
 
-    if (params && params.id) {
-      this.handleUpdate(params.id);
+  const handleSubmit = (event) => {
+    if (props.match.params && props.match.params.id) {
+      handleUpdate(props.match.params.id, contact);
     } else {
-      this.handleCreate();
+      handleCreate();
     }
-
     event.preventDefault();
-  }
+  };
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
+  return (
+    <div className="abs-center">
+      <form onSubmit={handleSubmit} className="border p-3 form">
         <div className="form-group">
           <label>First Name:</label>
-          <input className="form-control" type="text" ref="firstName" />
+          <input
+            className="form-control"
+            type="text"
+            value={contact.firstName || ""}
+            onChange={(e) =>
+              setContact({ ...contact, firstName: e.target.value })
+            }
+            placeholder="Enter first name"
+          />
 
           <label>Last Name:</label>
-          <input className="form-control" type="text" ref="lastName" />
+          <input
+            className="form-control"
+            type="text"
+            value={contact.lastName || ""}
+            onChange={(e) =>
+              setContact({ ...contact, lastName: e.target.value })
+            }
+            placeholder="Enter last name"
+          />
 
           <label>Phone:</label>
-          <input className="form-control" type="text" ref="phoneNumber" />
-
+          <input
+            className="form-control"
+            type="text"
+            value={contact.phoneNumber || ""}
+            onChange={(e) =>
+              setContact({ ...contact, phoneNumber: e.target.value })
+            }
+            placeholder="Enter a valid phone number eg: +34 612345678"
+          />
           <label>Email:</label>
-          <input className="form-control" type="text" ref="email" />
+          <input
+            className="form-control"
+            type="text"
+            value={contact.email || ""}
+            onChange={(e) => setContact({ ...contact, email: e.target.value })}
+            placeholder="Enter a valid email"
+          />
 
-          <input className="btn btn-primary" type="submit" value="Submit" />
+          <button className="btn btn-primary submit-btn-space" type="submit">
+            Submit
+          </button>
         </div>
       </form>
-    );
-  }
+    </div>
+  );
 }
-
-export default ContactCreateUpdate;

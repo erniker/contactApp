@@ -18,7 +18,6 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
 
   async createContact(
     createContact: CreateContactDto,
-    userId: string,
   ): Promise<ContactDto> {
     try {
       const { firstName, lastName, email, phoneNumber } = createContact
@@ -29,7 +28,6 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
       contact.lastName = lastName
       contact.email = email
       contact.phoneNumber = phoneNumber
-      contact.userId = userId
 
       await contact.save()
       return contact
@@ -47,7 +45,6 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
   async updateContact(
     contactId: string,
     updateContact: UpdateContactDto,
-    userId: string,
   ): Promise<void> {
     try {
       const { firstName, lastName, email, phoneNumber } = updateContact
@@ -97,7 +94,7 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
     }
   }
 
-  async deleteContact(contactId: string, userId: string): Promise<void> {
+  async deleteContact(contactId: string): Promise<void> {
     try {
       await this.delete(contactId)
     } catch (err) {

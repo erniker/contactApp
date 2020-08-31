@@ -36,47 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.firstMigration1598029310785 = void 0;
-var firstMigration1598029310785 = /** @class */ (function () {
-    function firstMigration1598029310785() {
-        this.name = 'firstMigration1598029310785';
+exports.firstMigrationMin1598300314453 = void 0;
+var firstMigrationMin1598300314453 = /** @class */ (function () {
+    function firstMigrationMin1598300314453() {
+        this.name = 'firstMigrationMin1598300314453';
     }
-    firstMigration1598029310785.prototype.up = function (queryRunner) {
+    firstMigrationMin1598300314453.prototype.up = function (queryRunner) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, queryRunner.query("CREATE TABLE \"contact\" (\"id\" uuid NOT NULL DEFAULT uuid_generate_v4(), \"firstName\" character varying NOT NULL, \"lastName\" character varying NOT NULL, \"email\" character varying NOT NULL, \"phoneNumber\" character varying NOT NULL, \"createdAt\" TIMESTAMP NOT NULL DEFAULT now(), \"updatedAt\" TIMESTAMP NOT NULL DEFAULT now(), \"userId\" uuid NOT NULL, CONSTRAINT \"UQ_eff09bb429f175523787f46003b\" UNIQUE (\"email\"), CONSTRAINT \"PK_2cbbe00f59ab6b3bb5b8d19f989\" PRIMARY KEY (\"id\"))")];
+                    case 0: return [4 /*yield*/, queryRunner.query("CREATE TABLE \"contact\" (\"id\" uuid NOT NULL DEFAULT uuid_generate_v4(), \"firstName\" character varying NOT NULL, \"lastName\" character varying NOT NULL, \"email\" character varying NOT NULL, \"phoneNumber\" character varying NOT NULL, \"createdAt\" TIMESTAMP NOT NULL DEFAULT now(), \"updatedAt\" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT \"UQ_eff09bb429f175523787f46003b\" UNIQUE (\"email\"), CONSTRAINT \"PK_2cbbe00f59ab6b3bb5b8d19f989\" PRIMARY KEY (\"id\"))")];
                     case 1:
-                        _a.sent();
-                        return [4 /*yield*/, queryRunner.query("CREATE TABLE \"user\" (\"id\" uuid NOT NULL DEFAULT uuid_generate_v4(), \"username\" character varying NOT NULL, \"password\" character varying NOT NULL, \"salt\" character varying NOT NULL, CONSTRAINT \"UQ_78a916df40e02a9deb1c4b75edb\" UNIQUE (\"username\"), CONSTRAINT \"PK_cace4a159ff9f2512dd42373760\" PRIMARY KEY (\"id\"))")];
-                    case 2:
-                        _a.sent();
-                        return [4 /*yield*/, queryRunner.query("ALTER TABLE \"contact\" ADD CONSTRAINT \"FK_e7e34fa8e409e9146f4729fd0cb\" FOREIGN KEY (\"userId\") REFERENCES \"user\"(\"id\") ON DELETE NO ACTION ON UPDATE NO ACTION")];
-                    case 3:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    firstMigration1598029310785.prototype.down = function (queryRunner) {
+    firstMigrationMin1598300314453.prototype.down = function (queryRunner) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, queryRunner.query("ALTER TABLE \"contact\" DROP CONSTRAINT \"FK_e7e34fa8e409e9146f4729fd0cb\"")];
+                    case 0: return [4 /*yield*/, queryRunner.query("DROP TABLE \"contact\"")];
                     case 1:
-                        _a.sent();
-                        return [4 /*yield*/, queryRunner.query("DROP TABLE \"user\"")];
-                    case 2:
-                        _a.sent();
-                        return [4 /*yield*/, queryRunner.query("DROP TABLE \"contact\"")];
-                    case 3:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    return firstMigration1598029310785;
+    return firstMigrationMin1598300314453;
 }());
-exports.firstMigration1598029310785 = firstMigration1598029310785;
+exports.firstMigrationMin1598300314453 = firstMigrationMin1598300314453;

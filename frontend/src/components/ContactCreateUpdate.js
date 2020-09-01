@@ -78,6 +78,7 @@ export default function ContactCreateUpdate(props) {
           <input
             className="form-control"
             type="text"
+            name="firstName"
             value={contact.firstName || ""}
             onChange={(e) =>
               setContact({ ...contact, firstName: e.target.value })
@@ -89,6 +90,7 @@ export default function ContactCreateUpdate(props) {
           <input
             className="form-control"
             type="text"
+            name="lastName"
             value={contact.lastName || ""}
             onChange={(e) =>
               setContact({ ...contact, lastName: e.target.value })
@@ -100,6 +102,7 @@ export default function ContactCreateUpdate(props) {
           <input
             className="form-control"
             type="text"
+            name="phoneNumber"
             value={contact.phoneNumber || ""}
             onChange={(e) =>
               setContact({ ...contact, phoneNumber: e.target.value })
@@ -110,6 +113,7 @@ export default function ContactCreateUpdate(props) {
           <input
             className="form-control"
             type="text"
+            name="email"
             value={contact.email || ""}
             onChange={(e) => setContact({ ...contact, email: e.target.value })}
             placeholder="Enter a valid email"

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import ContactsList from "./ContactsList";
-import ContactCreateUpdate from "./ContactCreateUpdate";
+import ContactsList from "./List/ContactsList";
+import ContactCreateUpdate from "./Form/ContactCreateUpdate";
 import Footer from "./Footer";
 import Nav from "./Nav";
 

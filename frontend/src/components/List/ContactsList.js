@@ -1,25 +1,8 @@
-import React, { useState, useEffect } from "react";
-import ContactsApi from "../api/ContactsApi";
-
-const contactsService = new ContactsApi();
+import React from "react";
+import useContactList from "./commons";
 
 export default function ContactsList() {
-  const [contacts, setContacts] = useState([]);
-
-  useEffect(() => {
-    contactsService.getContacts().then((response) => {
-      setContacts(response);
-    });
-  }, []);
-
-  const handleDelete = (id) => {
-    contactsService.deleteContact({ id: id }).then(() => {
-      var newArr = contacts.filter(function (obj) {
-        return obj.id !== id;
-      });
-      setContacts(newArr);
-    });
-  };
+  const { contacts, handleDelete } = useContactList();
 
   return (
     <div className="table-responsive">

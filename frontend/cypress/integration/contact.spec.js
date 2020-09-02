@@ -6,11 +6,29 @@ describe("Contacts", () => {
     if (email) cy.get('input[name="email"]').type(email);
     cy.get(".btn[type=submit]").click();
   }
-  function updateEmailContactForm(email) {
-    cy.get('input[name="email"]').clear();
-    if (email) cy.get('input[name="email"]').type(email);
+
+  function updateEmailContactForm(firstName, lastName, phoneNumber, email) {
+    if (firstName) {
+      cy.get('input[name="firstName"]').clear();
+      cy.get('input[name="firstName"]').type(firstName);
+    }
+    if (lastName) {
+      cy.get('input[name="lastName"]').clear();
+      cy.get('input[name="lastName"]').type(lastName);
+    }
+
+    if (phoneNumber) {
+      cy.get('input[name="phoneNumber"]').clear();
+      cy.get('input[name="phoneNumber"]').type(phoneNumber);
+    }
+    if (email) {
+      cy.get('input[name="email"]').clear();
+      cy.get('input[name="email"]').type(email);
+    }
+
     cy.get(".btn[type=submit]").click();
   }
+
   beforeEach(() => {
     cy.visit("/");
   });
@@ -25,7 +43,7 @@ describe("Contacts", () => {
       undefined,
       "last name",
       "+34 678123456",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`firstName should not be empty`);
@@ -38,7 +56,7 @@ describe("Contacts", () => {
       "first name",
       undefined,
       "+34 678123456",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`lastName should not be empty`);
@@ -64,7 +82,7 @@ describe("Contacts", () => {
       "first name",
       "last name",
       undefined,
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`phoneNumber should not be empty`);
@@ -90,7 +108,7 @@ describe("Contacts", () => {
       "first name",
       "last name",
       "+34 678123456789",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`phoneNumber must be a valid phone number`);
@@ -103,12 +121,12 @@ describe("Contacts", () => {
       "first name",
       "last name",
       "+34 678123456",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
+    cy.visit("/");
     cy.get("table")
       .contains("td", "first name")
       .siblings()
-      .get("div")
       .contains("button", "Delete")
       .click();
   });
@@ -119,7 +137,7 @@ describe("Contacts", () => {
       "first name",
       "last name",
       "+34 678123456",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.visit("/");
     cy.get('a.nav-link[href="/contact"]').click();
@@ -127,7 +145,7 @@ describe("Contacts", () => {
       "first name",
       "last name",
       "+34 678123456",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`Email already exists`);
@@ -136,7 +154,6 @@ describe("Contacts", () => {
     cy.get("table")
       .contains("td", "first name")
       .siblings()
-      .get("div")
       .contains("button", "Delete")
       .click();
   });
@@ -147,16 +164,20 @@ describe("Contacts", () => {
       "first name",
       "last name",
       "+34 678123456",
-      "exaplecontact@example.com"
+      "examplecontact@example.com"
     );
     cy.visit("/");
     cy.get("table")
       .contains("td", "first name")
       .siblings()
-      .get("div")
       .contains("button", "Update")
       .click();
-    updateEmailContactForm("anotherexaplecontact@example.com");
+    updateEmailContactForm(
+      undefined,
+      undefined,
+      undefined,
+      "anotherexamplecontact@example.com"
+    );
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`Contact updated!`);
     });

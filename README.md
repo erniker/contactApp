@@ -81,6 +81,12 @@ cd backend
 - Run `yarn test:unit:cov` to get a unit test coverage report
 - Run `yarn test:cov` to get a full coverage report
 
+To run  e2e test:
+```bash
+cd frontend
+```
+- Run `yarn cupress`
+
 ## Built with 🛠️
 
 * [NodeJS](https://nodejs.org/es/) - A JavaScript runtim
@@ -92,7 +98,7 @@ cd backend
 
 * **José Pablo Medina Grande** - [erniker](https://github.com/erniker)
 
-## acknowledgement 🎁
+## Acknowledgement 🎁
 
 * To Frzurita, who taught me almost everything I know. -> Frzurita.https://github.com/Frzurita)
 

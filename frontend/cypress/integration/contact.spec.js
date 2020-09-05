@@ -181,5 +181,11 @@ describe("Contacts", () => {
     cy.on("window:alert", (str) => {
       expect(str).to.equal(`Contact updated!`);
     });
+    cy.visit("/");
+    cy.get("table")
+      .contains("td", "first name")
+      .siblings()
+      .contains("button", "Delete")
+      .click();
   });
 });

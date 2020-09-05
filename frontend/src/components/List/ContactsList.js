@@ -2,7 +2,7 @@ import React from "react";
 import useContactList from "./commons";
 
 export default function ContactsList() {
-  const { contacts, handleDelete } = useContactList();
+  const { contacts, handleDelete, handleUpdate } = useContactList();
 
   return (
     <div className="table-responsive">
@@ -31,12 +31,7 @@ export default function ContactsList() {
                     type="button"
                     className="btn btn-danger contactlist-btn-space"
                     onClick={(e) => {
-                      if (
-                        window.confirm(
-                          "Are you sure you wish to delete this item?"
-                        )
-                      )
-                        handleDelete(contact.id);
+                      handleDelete(contact.id);
                     }}
                   >
                     {" "}
@@ -47,8 +42,7 @@ export default function ContactsList() {
                     type="button"
                     className="btn btn-warning contactlist-btn-space"
                     onClick={(e) => {
-                      e.preventDefault();
-                      window.location.href = "/contact/" + contact.id;
+                      handleUpdate(e, contact);
                     }}
                   >
                     {" "}

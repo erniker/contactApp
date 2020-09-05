@@ -77,7 +77,6 @@ const useContactCreateUpdateForm = (props) => {
       handleCreate();
     }
     event.preventDefault();
-    // callback();
   };
 
   return {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ContactsApi from "../../api/ContactsApi";
 
-const contactsService = new ContactsApi();
+const contactsApi = new ContactsApi();
 
 const useContactCreateUpdateForm = (props) => {
   const [contact, setContact] = useState({
@@ -13,14 +13,14 @@ const useContactCreateUpdateForm = (props) => {
 
   useEffect(() => {
     if (props.match.params && props.match.params.id) {
-      contactsService.getContact(props.match.params.id).then((result) => {
+      contactsApi.getContact(props.match.params.id).then((result) => {
         setContact(result);
       });
     }
   }, [props]);
 
   const handleCreate = () => {
-    contactsService
+    contactsApi
       .createContact(contact)
       .then((result) => {
         setResult(result, "Contact created!");
@@ -31,7 +31,7 @@ const useContactCreateUpdateForm = (props) => {
   };
 
   const handleUpdate = (id) => {
-    contactsService
+    contactsApi
       .updateContact({
         id: id,
         ...contact,

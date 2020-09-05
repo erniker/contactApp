@@ -1,8 +1,42 @@
 import React from "react";
-import useLoginForm from "./commons";
+import { login } from "../api/AuthAPI";
+import ListErrors from "./common/ListErrors";
+import useAuth from "../context/auth";
+import { navigate, Link, RouteComponentProps, Redirect } from "@reach/router";
 
 export default function Login(props) {
-  const { handleSubmit } = useLoginForm(props);
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [errors, setErrors] = React.useState();
+  const {
+    state: { user },
+    dispatch,
+  } = useAuth();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const user = await login(username, password);
+      dispatch({ type: "LOAD_USER", user });
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+      if (error.data.statusCode) {
+        const messageType = typeof error.data.message;
+        const message = error.data.message;
+        setErrors({
+          [`${error.data.error}:`]:
+            messageType === "string" ? [message] : message,
+        });
+      }
+    }
+  };
+
+  if (user) {
+    return <Redirect to="/" noThrow />;
+  }
 
   return (
     <div className="abs-center">

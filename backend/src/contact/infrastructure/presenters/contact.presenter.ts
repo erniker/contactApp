@@ -1,3 +1,4 @@
+import { UserPresenter } from 'src/auth/infrastructure/presenters/user.presenter'
 export class ContactPresenter {
   id: string
   firstName: string
@@ -6,4 +7,5 @@ export class ContactPresenter {
   phoneNumber: string
   createdAt: string
   updatedAt: string
+  user: UserPresenter
 }

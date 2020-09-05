@@ -18,6 +18,7 @@ async function bootstrap() {
   }
 
   const options = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Contacts handler API')
     .setDescription('Api built in Nestjs to handle contacts')
     .setVersion(process.env.VERSION)

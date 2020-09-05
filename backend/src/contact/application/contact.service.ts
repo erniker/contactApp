@@ -1,4 +1,4 @@
-import { Injectable, Logger, Inject } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import {
   CONTACT_REPOSITORY,
   ContactRepository,
@@ -16,17 +16,20 @@ export class ContactService {
 
   async createContact(
     createContact: CreateContactDto,
+    userId: string,
   ): Promise<ContactDto> {
-    return this.contactRepository.createContact(createContact)
+    return this.contactRepository.createContact(createContact, userId)
   }
 
   async updateContact(
     contactId: string,
     updateContact: UpdateContactDto,
+    userId: string,
   ): Promise<void> {
     return this.contactRepository.updateContact(
       contactId,
       updateContact,
+      userId
     )
   }
 
@@ -38,7 +41,7 @@ export class ContactService {
     return this.contactRepository.getContactById(contactId)
   }
 
-  async deleteContact(contactId: string): Promise<void> {
-    return this.contactRepository.deleteContact(contactId)
+  async deleteContact(contactId: string, userId: string): Promise<void> {
+    return this.contactRepository.deleteContact(contactId, userId)
   }
 }

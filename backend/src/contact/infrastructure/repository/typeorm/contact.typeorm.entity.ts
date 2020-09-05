@@ -6,7 +6,9 @@ import {
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm'
+import { User } from '../../../../auth/infrastructure/repository/typeorm/user.typeorm.entity'
 
 @Entity()
 @Unique(['email'])
@@ -31,4 +33,14 @@ export class Contact extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: string
+
+  @Column()
+  userId: string
+
+  @ManyToOne(
+    type => User,
+    user => user.contacts,
+    { eager: true },
+  )
+  user: User
 }

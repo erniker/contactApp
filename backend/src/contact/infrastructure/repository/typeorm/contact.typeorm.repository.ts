@@ -18,6 +18,7 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
 
   async createContact(
     createContact: CreateContactDto,
+    userId: string,
   ): Promise<ContactDto> {
     try {
       const { firstName, lastName, email, phoneNumber } = createContact
@@ -28,6 +29,7 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
       contact.lastName = lastName
       contact.email = email
       contact.phoneNumber = phoneNumber
+      contact.userId = userId
 
       await contact.save()
       return contact

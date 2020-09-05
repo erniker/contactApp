@@ -6,4 +6,6 @@ export class ContactDto {
   phoneNumber: string
   createdAt: string
   updatedAt: string
+  userId: string
+  user?: any
 }

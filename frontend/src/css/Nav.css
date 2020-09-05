@@ -1,7 +1,0 @@
-.list-nav {
-    position: fixed;
-    width: calc(100% - 30px);
-    top: 0;
-    display: flex;
-    z-index: 1;
-}

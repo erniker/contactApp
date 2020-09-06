@@ -90,7 +90,11 @@ export class ContactRepositoryTypeorm extends Repository<Contact>
 
   async getContacts(): Promise<ContactDto[]> {
     try {
-      return await this.find()
+      return await this.find({
+        order: {
+          firstName: 'ASC'
+        }
+      })
     } catch (err) {
       throw new InternalServerErrorException()
     }

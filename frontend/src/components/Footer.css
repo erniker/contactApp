@@ -1,0 +1,8 @@
+.main-footer {
+    position: fixed;
+    width: calc(100% - 30px);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}

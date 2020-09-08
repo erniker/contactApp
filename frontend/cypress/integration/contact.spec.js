@@ -187,5 +187,6 @@ describe("Contacts", () => {
       .siblings()
       .contains("button", "Delete")
       .click();
+    cy.visit("/");
   });
 });

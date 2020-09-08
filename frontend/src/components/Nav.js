@@ -1,6 +1,7 @@
 import React from "react";
+import "./Nav.css";
 
-export default function BaseLayout() {
+export default function Nav() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light list-nav">
       <a className="navbar-brand" href="/">

@@ -1,5 +1,6 @@
 import React from "react";
 import useContactList from "./commons";
+import "./ContactList.css";
 
 export default function ContactsList() {
   const { contacts, handleDelete, handleUpdate } = useContactList();

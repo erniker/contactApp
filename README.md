@@ -15,7 +15,6 @@ Download project:
 git clone https://github.com/erniker/contactApp.git
 cd contactApp
 ```
-❗ The actual branch is erniker/ContactApp-min-bootstrap, so, be sure you start proyect on it ❗
 
 Then install dependencies:
 

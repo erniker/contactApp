@@ -84,7 +84,7 @@ To run  e2e test:
 ```bash
 cd frontend
 ```
-- Run `yarn cupress`
+- Run `yarn cypress`
 
 ## Built with 🛠️
 
